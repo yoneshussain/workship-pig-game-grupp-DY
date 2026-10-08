@@ -13,15 +13,14 @@ let isPlaying = true; // Blir false när någon har vunnit
 
 // ---------- 2. Element i DOM:en ----------
 
-
 //SPEL-2 Ticket-slå-tärning Ansvarig: Daniel Ringel
-const dice1El = document.querySelector('#dice-1');
-const dice2El = document.querySelector('#dice-2');
+const dice1El = document.querySelector("#dice-1");
+const dice2El = document.querySelector("#dice-2");
 
-const btnRoll = document.querySelector('.btn-roll');
+const btnRoll = document.querySelector(".btn-roll");
 
-const player0El = document.querySelector('.player-0-panel');
-const player1El = document.querySelector('.player-1-panel');
+const player0El = document.querySelector(".player-0-panel");
+const player1El = document.querySelector(".player-1-panel");
 
 // yones elementer i DOM:en
 const score0 = document.querySelector("#score-0");
@@ -35,6 +34,8 @@ const diceElement2 = document.querySelector("#dice-2");
 const newgameBtn = document.querySelector(".btn-new");
 const currentScore1 = document.querySelector("#current-0");
 const currentScore2 = document.querySelector("#current-1");
+
+const holdBtn = document.querySelector(".btn-hold");
 
 // ---------- 3. Funktioner ----------
 
@@ -79,45 +80,60 @@ function init() {
 
 // SPEL-2: Körs när man klickar på "Slå tärning"
 function rollDice() {
-    diceElement1.style.visibility = 'visible';
-    diceElement2.style.visibility = 'visible';
+  diceElement1.style.visibility = "visible";
+  diceElement2.style.visibility = "visible";
 
-    const dice1 = Math.floor(Math.random() * 6) + 1;
-    const dice2 = Math.floor(Math.random() * 6) + 1;
+  const dice1 = Math.floor(Math.random() * 6) + 1;
+  const dice2 = Math.floor(Math.random() * 6) + 1;
 
-    dice1El.src = `img/dice-${dice1}.png`;
-    dice2El.src = `img/dice-${dice2}.png`;
+  dice1El.src = `img/dice-${dice1}.png`;
+  dice2El.src = `img/dice-${dice2}.png`;
 
-    if (dice1 === 1 || dice2 === 1) {
-        switchPlayer();
-    } else {
-        roundScore += dice1 + dice2;
-        document.getElementById(`current-${activePlayer}`).textContent = roundScore;
-    }
+  if (dice1 === 1 || dice2 === 1) {
+    switchPlayer();
+  } else {
+    roundScore += dice1 + dice2;
+    document.getElementById(`current-${activePlayer}`).textContent = roundScore;
+  }
 }
 
 // SPEL-3 och SPEL-4: Körs när man klickar på "Håll poäng"
-function holdScore() {}
+function holdScore() {
+  holdBtn.addEventListener("click", () => {
+    if (activePlayer === 0) {
+      scores[0] = roundScore;
+      console.log(scores);
+      score0.textContent = scores[0] + parseInt(score0.textContent);
+    } else if (activePlayer === 1) {
+      scores[1] = roundScore;
+      console.log(scores);
+      score1.textContent = scores[1] + parseInt(score1.textContent);
+    }
+
+    switchPlayer();
+  });
+}
 
 // SPEL-2: Byter till den andra spelaren
 function switchPlayer() {
-    document.getElementById(`current-${activePlayer}`).textContent = '0';
+  document.getElementById(`current-${activePlayer}`).textContent = "0";
 
-    roundScore = 0;
+  roundScore = 0;
 
-    if (activePlayer === 0) {
-        activePlayer = 1;
-    } else {
-        activePlayer = 0;
-    }
+  if (activePlayer === 0) {
+    activePlayer = 1;
+  } else {
+    activePlayer = 0;
+  }
 
-    player0El.classList.toggle('active');
-    player1El.classList.toggle('active');
+  player0El.classList.toggle("active");
+  player1El.classList.toggle("active");
 }
-
 
 // ---------- 4. Händelser ----------
 
-btnRoll.addEventListener('click', rollDice);
+btnRoll.addEventListener("click", rollDice);
 
 init();
+
+holdScore();

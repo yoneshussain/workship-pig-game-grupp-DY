@@ -37,6 +37,17 @@ const currentScore2 = document.querySelector("#current-1");
 
 const holdBtn = document.querySelector(".btn-hold");
 
+const gif = document.createElement("img");
+
+gif.src = "./../img/confetti.gif";
+gif.style.position = "fixed";
+gif.style.inset = "0";
+gif.style.zIndex = "1000";
+gif.style.left = "50%";
+gif.style.top = "50%";
+gif.style.transform = "translate(-50%, -50%)";
+gif.style.pointerEvents = "none";
+
 // ---------- 3. Funktioner ----------
 
 // SPEL-1: Startar ett nytt spel
@@ -75,6 +86,10 @@ function init() {
 
     diceElement1.style.visibility = "hidden";
     diceElement2.style.visibility = "hidden";
+
+    btnRoll.addEventListener("click", rollDice);
+
+    gif.remove()
   });
 }
 
@@ -111,6 +126,34 @@ function holdScore() {
     }
 
     switchPlayer();
+
+    if (score0.textContent >= WINNING_SCORE) {
+      name0.textContent = "VINNARE 🎉";
+
+      diceElement1.style.visibility = "hidden";
+      diceElement2.style.visibility = "hidden";
+
+      isPlaying = false;
+
+      player0_panel.classList.add("active");
+      player1_panel.classList.remove("active");
+
+      btnRoll.removeEventListener("click", rollDice);
+      document.body.append(gif);
+    } else if (score1.textContent >= WINNING_SCORE) {
+      name1.textContent = "VINNARE 🎉";
+
+      diceElement1.style.visibility = "hidden";
+      diceElement2.style.visibility = "hidden";
+
+      isPlaying = false;
+
+      player1_panel.classList.add("active");
+      player0_panel.classList.remove("active");
+
+      btnRoll.removeEventListener("click", rollDice);
+      document.body.append(gif);
+    }
   });
 }
 

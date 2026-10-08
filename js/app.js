@@ -79,6 +79,9 @@ function init() {
 
 // SPEL-2: Körs när man klickar på "Slå tärning"
 function rollDice() {
+    diceElement1.style.visibility = 'visible';
+    diceElement2.style.visibility = 'visible';
+
     const dice1 = Math.floor(Math.random() * 6) + 1;
     const dice2 = Math.floor(Math.random() * 6) + 1;
 
